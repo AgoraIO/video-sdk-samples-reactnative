@@ -1,0 +1,42 @@
+# React Native related files and directories
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Android build
+android/app/build/
+android/build/
+android/captures/
+android/gradle-wrapper.jar
+
+# iOS build
+ios/Pods/
+ios/build/
+ios/Pods.xcodeproj/
+ios/*.xcworkspace/
+ios/*.xcuserdatad/
+
+# Dependency directories
+/jni/
+/tmp/
+/temp/
+/.tmp/
+/temp-*/
+
+# Miscellaneous
+.DS_Store
+*.log
+*.pot
+*.tmp
+*.swp
+*.out
+*.pid
+*.yarn-integrity
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.staging
+.env.production
