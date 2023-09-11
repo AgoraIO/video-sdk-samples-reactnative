@@ -60,3 +60,4 @@ yarn.lock
 *.coverage.json
 .circleci
 .eslintignore
+node_modules
