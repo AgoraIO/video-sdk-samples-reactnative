@@ -1,5 +1,5 @@
 import React from "react";
-import AgoraUI from "../agora-manager/agoraUI";
+import AgoraUI, { styles } from "../agora-manager/agoraUI";
 import { View, TextInput } from "react-native";
 import CloudProxyManager from "./cloudProxyManager";
 
@@ -18,12 +18,7 @@ const CloudProxy = () => {
           <TextInput
             placeholder="Type a channel name here"
             onChangeText={(text) =>  cloudProxyManager.setChannelName(text)}
-            style={{
-              alignSelf: 'center',
-              borderColor: 'white',
-              borderWidth: 1,
-              height: 30
-            }}
+            style={styles.input}
             placeholderTextColor={"white"}
           />
         </View>

@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
-import AgoraUI from "../agora-manager/agoraUI";
+import AgoraUI, { styles } from "../agora-manager/agoraUI";
 import { View, Text, Button, TextInput, Switch } from "react-native";
 import { AudioMixingStateType } from 'react-native-agora';
 import AudioAndVoiceEffectsManager from "./audioAndVoiceEffectsManager";
 
 const effectCaptions = [
-  'Apply voice effect',
-  'Voice effect: Chat Beautifier',
-  'Voice effect: Singing Beautifier',
-  'Audio effect: Hulk',
-  'Audio effect: Voice Changer',
-  'Audio effect: Voice Equalization',
+  'Apply Voice Effect',
+  'Voice Effect: Chat Beautifier',
+  'Voice Effect: Singing Beautifier',
+  'Audio Effect: Hulk',
+  'Audio Effect: Voice Changer',
+  'Audio Effect: Voice Equalization',
 ];
 
-const AudioAndVoiceEffects = () => {
+const AudioEffectsScreen = () => {
   const audioAndVoiceEffectsManager = AudioAndVoiceEffectsManager();
-  const [mixingBtnTxt, setMixingBtnTxt] = useState("Mix audio file");
+  const [mixingBtnTxt, setMixingBtnTxt] = useState("Start Audio Mixing");
 
   useEffect(() => {
     const { audioMixingState } = audioAndVoiceEffectsManager;
-    if (audioMixingState === AudioMixingStateType.AudioMixingStatePaused) {
-      setMixingBtnTxt("Resume audio mixing");
-    } else if (audioMixingState === AudioMixingStateType.AudioMixingStatePlaying) {
-      setMixingBtnTxt("Pause audio mixing");
-    } else {
-      setMixingBtnTxt("Mix Audio File");
+    switch (audioMixingState) {
+      case AudioMixingStateType.AudioMixingStatePaused:
+        setMixingBtnTxt("Resume audio mixing");
+        break;
+      case AudioMixingStateType.AudioMixingStatePlaying:
+        setMixingBtnTxt("Pause audio mixing");
+        break;
+      default:
+        setMixingBtnTxt("Start Audio Mixing");
     }
   }, [audioAndVoiceEffectsManager.audioMixingState]);
 
@@ -36,7 +39,7 @@ const AudioAndVoiceEffects = () => {
         audioAndVoiceEffectsManager.stopSoundEffect();
       }
     } else {
-      console.log("Please join the channel to try voice effect");
+      console.error("Please join the channel to try voice effect");
     }
   };
 
@@ -53,20 +56,15 @@ const AudioAndVoiceEffects = () => {
             placeholder="Type a channel name here"
             placeholderTextColor={'white'}
             onChangeText={(text) => audioAndVoiceEffectsManager.setChannelName(text)}
-            style={{
-              alignSelf: 'center',
-              borderColor: 'white',
-              borderWidth: 1,
-              height: 30
-            }}
+            style={styles.input}
           />
           <View>
             <Button title={mixingBtnTxt} onPress={audioAndVoiceEffectsManager.startAudioMixing} />
-            <Button title={audioAndVoiceEffectsManager.isEffectPlaying ? "Stop audio effect" : "Play audio effect"} onPress={playSoundEffect} />
+            <Button title={audioAndVoiceEffectsManager.isEffectPlaying ? "Stop Audio Effect" : "Play Audio Effect"} onPress={playSoundEffect} />
             <Button title={effectCaptions[audioAndVoiceEffectsManager.voiceEffectIndex]} onPress={audioAndVoiceEffectsManager.applyVoiceEffect} />
           </View>
           <View>
-            <Text style = {{color: "white"}}>Enable speakerphone</Text>
+            <Text style={{ color: "white" }}>Enable speakerphone</Text>
             <Switch
               onValueChange={(newValue) => audioAndVoiceEffectsManager.changeAudioRoute(newValue)}
             />
@@ -77,4 +75,4 @@ const AudioAndVoiceEffects = () => {
   );
 };
 
-export default AudioAndVoiceEffects;
+export default AudioEffectsScreen;

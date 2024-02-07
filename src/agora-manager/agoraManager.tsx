@@ -158,9 +158,11 @@ const AgoraManager = () => {
 
   const onUserJoined = (connection: RtcConnection, remoteUid: number, elapsed: number) => {
     showMessage('Remote user joined with uid ' + remoteUid);
-
-    if (!remoteUIDs.includes(remoteUid)) {
-      addRemoteUser([...remoteUIDs, remoteUid]);
+    if ( connection.channelId === config.channelName)
+    {
+      if (!remoteUIDs.includes(remoteUid)) {
+        addRemoteUser([...remoteUIDs, remoteUid]);
+      }
     }
   };
 

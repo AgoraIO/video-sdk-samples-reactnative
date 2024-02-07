@@ -61,19 +61,20 @@ const MediaEncryptionManager = () => {
 
   const enableEncryption = async () => {
 
-    if(config.encryptionBase64 ===  "" || config.encryptionKey === "")
+    if(config.salt ===  "" || config.encryptionKey === "")
     {
       console.log("Please specify encryption key and salt in the config file");
       return;
     }
     const encryptionConfig = {
-      encryptionBase64: config.encryptionBase64,
+      encryptionBase64: config.salt,
       encryptionKey: config.encryptionKey,
       encryptionMode: EncryptionMode.Aes128Ecb,
     };
 
     agoraEngineRef.current?.enableEncryption(true, encryptionConfig);
   };
+
 
   return {
     agoraEngineRef,

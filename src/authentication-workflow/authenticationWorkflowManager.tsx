@@ -34,8 +34,13 @@ const AuthenticationWorkflowManager = () => {
   // Function to handle joining the call
   const joinChannel = async () => {
     try {
-        await setupAgoraEngine();
-        await agoraManager.fetchRTCToken(channelName);
+      if(config.serverUrl ==="" )
+      {
+        Alert.alert("Please specify a server url to fetch token from the server");
+        return;
+      }
+      await setupAgoraEngine();
+      await agoraManager.fetchRTCToken(channelName);
       await agoraManager.joinChannel();
     } 
     catch (error) {

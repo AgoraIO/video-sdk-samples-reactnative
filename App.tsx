@@ -14,6 +14,7 @@ import ProductWorkflow from './src/product-workflow/productWorkflow';
 import VirtualBackground from './src/virtual-background/virtualBackground';
 import AINoiseSuppression from './src/ai-noise-suppression/aiNoiseSuppression';
 import SpatialAudio from './src/spatial-audio/spatialAudio';
+import LivesStreamingOverMultipleChannels from './src/live-streaming-over-multiple-channels/livesStreamingOverMultipleChannels';
 
 const App = () => {
   const [selectedProduct, setSelectedProduct] = useState('Video Calling');
@@ -39,8 +40,9 @@ const App = () => {
     { label: 'Geofencing', value: 'geofencing' },
     { label: 'Screen share, mute, and volume control', value: 'productWorkflow' },
     { label: 'Virtual Background', value: 'virtualBackground' },
-    { label: 'AI Noise Suppression', value: 'noiseSuppression' }
-    { label: '3d Spatial Audio', value: 'spatialAudio' }
+    { label: 'AI Noise Suppression', value: 'noiseSuppression' },
+    { label: '3d Spatial Audio', value: 'spatialAudio' },
+    { label: 'Live Streaming Over Multiple Channels', value: 'multiChannelLiveStreaming' }
   ]);
 
   return (
@@ -129,6 +131,12 @@ const App = () => {
         {
           selectedFeature === 'spatialAudio'  && (
             <SpatialAudio/>
+          )
+        }
+        {
+          selectedFeature === 'multiChannelLiveStreaming'  && (
+            config.product === "ILS" ?
+            <LivesStreamingOverMultipleChannels/> : <Text style = {{color: "white"}}> This feature is only available for ILS</Text>
           )
         }
       </View>

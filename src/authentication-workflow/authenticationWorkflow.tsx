@@ -1,5 +1,5 @@
 import React from "react";
-import AgoraUI from "../agora-manager/agoraUI";
+import AgoraUI, { styles } from "../agora-manager/agoraUI";
 import { TextInput, View } from "react-native";
 import AuthenticationWorkflowManager from "./authenticationWorkflowManager";
 
@@ -20,12 +20,7 @@ const AuthenticationWorkflow = () => {
             placeholder="Type a channel name here"
             placeholderTextColor={'white'}
             onChangeText={(text) => authenticationWorkflowManager.setChannelName(text)}
-            style={{
-              alignSelf: "center",
-              borderColor: "white",
-              borderWidth: 1,
-              height: 30
-            }}
+            style={styles.input}
           />
         </View>
       }

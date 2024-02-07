@@ -2,8 +2,10 @@
 import AgoraManager from "../agora-manager/agoraManager";
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
-import { BackgroundSourceType, BackgroundBlurDegree, MediaSourceType } from "react-native-agora";
+import { BackgroundSourceType, BackgroundBlurDegree } from "react-native-agora";
 import config from "../agora-manager/config";
+import { getAbsolutePath } from "../../utils";
+
 
 const VirtualBackgroundManager = () => {
     const agoraManager = AgoraManager();
@@ -100,7 +102,7 @@ const VirtualBackgroundManager = () => {
       console.log('Background Color turned on');
     };
   
-    const setImageBackground = () => {
+    const setImageBackground = async () => {
       setVirtualBackgroundStatus(true);
       agoraEngineRef.current?.enableVirtualBackground(isVirtualBackgroundOn, {
         background_source_type: BackgroundSourceType.BackgroundImg,

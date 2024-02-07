@@ -1,43 +1,48 @@
 import { useState, useEffect } from "react";
 import AgoraManager from "../agora-manager/agoraManager";
-import { CloudProxyType, ProxyType } from "react-native-agora";
+import { CloudProxyType, ConnectionChangedReasonType, ConnectionStateType, ProxyType, RtcConnection } from "react-native-agora";
 
 const CloudProxyManager = () => {
   const agoraManager = AgoraManager();
   const { agoraEngineRef, joined, remoteUIDs } = agoraManager;
   const [channelName, setChannelName] = useState("");
-
+  const [directConnectionFailed, setDirectConnectionFailed] = useState(false);
 
   useEffect(() => {
     return () => {
-        // Release the engine when component unmount.
-        agoraManager.destroyEngine();
+      // Release the engine when the component unmounts.
+      agoraManager.destroyEngine();
     };
   }, []);
 
-  const enableCloudProxy = async () => {
-    agoraEngineRef.current?.setCloudProxy(CloudProxyType.UdpProxy);
+  const registerConnectionStateHandler = () => {
     agoraEngineRef.current?.registerEventHandler({
-      onConnectionStateChanged(connection, state, reason) {
-        if (reason === 0) {
-        console.log('The SDK is connecting to the Agora edge server');
+      onConnectionStateChanged: (connection: RtcConnection, state: ConnectionStateType, reason: ConnectionChangedReasonType) => {
+        if (state === ConnectionStateType.ConnectionStateFailed && reason === ConnectionChangedReasonType.ConnectionChangedJoinFailed) {
+          setDirectConnectionFailed(true);
         }
       },
-      onProxyConnected(
+      onProxyConnected : (
         channel: string,
         uid: number,
         proxyType: ProxyType,
         localProxyIp: string,
-        elapsed: number)
-      {
-        console.log("Proxy server connected.");
-      }
+        elapsed: number) => {
+            console.log("Proxy server connected.");
+        }
     });
   };
+
+  useEffect(() => {
+    if (directConnectionFailed) {
+      agoraEngineRef.current?.setCloudProxy(CloudProxyType.UdpProxy);
+    }
+  }, [directConnectionFailed]);
+
   const joinChannel = async () => {
     try {
       await agoraManager.setupAgoraEngine();
-      await enableCloudProxy();
+      registerConnectionStateHandler();
       await agoraManager.fetchRTCToken(channelName);
       await agoraManager.joinChannel();
     } catch (error) {

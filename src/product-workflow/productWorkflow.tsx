@@ -1,11 +1,14 @@
+// ProductWorkflow.js
 import React from "react";
-import AgoraUI from "../agora-manager/agoraUI";
 import { View, Text, Button, TextInput, Switch } from "react-native";
-import ProductWorkflowManager from "./productWorkflowManager";
+import AgoraUI from "../agora-manager/agoraUI";
 import { VideoSourceType, RenderModeType, RtcSurfaceView } from 'react-native-agora';
+import ProductWorkflowManager from "./productWorkflowManager";
+import { styles } from "../agora-manager/agoraUI";
+import config from "../agora-manager/config";
 
 const ProductWorkflow = () => {
-    const productWorkflowManager = ProductWorkflowManager();
+    const productWorkflowManager = ProductWorkflowManager(); // Assuming this import is available
 
     return (
         <AgoraUI
@@ -19,43 +22,38 @@ const ProductWorkflow = () => {
                     <TextInput
                         placeholder="Type a channel name here"
                         onChangeText={(text) => productWorkflowManager.setChannelName(text)}
-                        style={{
-                            alignSelf: 'center',
-                            borderColor: 'black',
-                            borderWidth: 1,
-                            height: 30
-                        }}
-                        placeholderTextColor={"white"}
+                        style={styles.input}
+                        placeholderTextColor="white"
                     />
-                    <View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 10 }}>
-                            <Button title="+" onPress={productWorkflowManager.increaseVolume} />
-
-                            <Text style = {{color: "white"}}> Volume: {productWorkflowManager.volume} </Text>
-                            <Button title="-" onPress={productWorkflowManager.decreaseVolume} />
-                        </View>
-                        <Button
-                            title={productWorkflowManager.isSharingScreen ? "Stop Sharing" : "Share Screen"}
-                            onPress={productWorkflowManager.isSharingScreen ? productWorkflowManager.stopScreenSharing :productWorkflowManager.startScreenCapture}
-                        />
+                    <View style={styles.volumeControl}>
+                        <Button title="+" onPress={productWorkflowManager.increaseVolume} />
+                        <Text style={styles.volumeText}>Volume: {productWorkflowManager.volume}</Text>
+                        <Button title="-" onPress={productWorkflowManager.decreaseVolume} />
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ marginRight: 10, color: "white" }}>Mute Remote User:</Text>
+                    <Button
+                        title={productWorkflowManager.isSharingScreen ? "Stop Sharing" : "Share Screen"}
+                        onPress={productWorkflowManager.isSharingScreen ? productWorkflowManager.stopScreenSharing : productWorkflowManager.startScreenCapture}
+                    />
+                    <View style={styles.muteSwitchContainer}>
+                        <Text style={styles.muteLabel}>Mute Remote User:</Text>
                         <Switch
                             onValueChange={(newValue) => productWorkflowManager.mute(newValue)}
                         />
                     </View>
-                    {productWorkflowManager.isSharingScreen && (
-                        <RtcSurfaceView
-                            style={{ width: '100%', height: 200 }}
-                            canvas={{
-                                uid: 0,
-                                sourceType: VideoSourceType.VideoSourceScreen,
-                                renderMode: RenderModeType.RenderModeFit,
-                            }}
-                        />
-                    )}
                 </View>
+            }
+            additionalViews = {
+                productWorkflowManager.isSharingScreen && (
+                    <RtcSurfaceView
+                        style={styles.screenShareView}
+                        canvas={{
+                            uid: config.uid,
+                            sourceType: VideoSourceType.VideoSourceScreen,
+                            renderMode: RenderModeType.RenderModeFit,
+                        }}
+                        connection={{localUid: config.uid, channelId: config.channelName}}
+                    />
+                )
             }
         />
     );

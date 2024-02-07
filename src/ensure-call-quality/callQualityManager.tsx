@@ -14,8 +14,17 @@ import {
   CompressionPreference,
   QualityType,
   LogLevel,
+  RtcConnection,
+  RtcStats,
+  ConnectionStateType,
+  ConnectionChangedReasonType,
+  LastmileProbeResult,
+  RemoteVideoState,
+  RemoteVideoStateReason,
+  RemoteVideoStats
 } from 'react-native-agora';
 import config from "../agora-manager/config";
+import { Alert } from "react-native";
 
 const CallQualityManager = () => {
   const agoraManager = AgoraManager();
@@ -24,7 +33,6 @@ const CallQualityManager = () => {
   const [networkQuality, setQuality] = useState(''); // Indicates network quality
   const [isEchoTestRunning, setEchoTestState] = useState(false); // A variable to track the echo test state.
   const [channelName, setChannelName] = useState("");
-
 
   useEffect(() => {
     return () => {
@@ -87,64 +95,78 @@ const CallQualityManager = () => {
       agoraManager.agoraEngineRef.current.setLogFileSize(256); // Ranges from 128 - 20480kb.
       agoraManager.agoraEngineRef.current.setLogLevel(LogLevel.LogLevelWarn);
       agoraManager.agoraEngineRef.current.registerEventHandler({
-        onConnectionStateChanged: (connection, state, reason) => {
-          console.log(
-            'Connection state changed' +
-            '\n New state: ' +
-            state +
-            '\n Reason: ' +
-            reason,
-          );
-        },
-        onLastmileQuality: Quality => {
-          updateNetworkStatus(Quality);
-        },
-        onLastmileProbeResult: result => {
-          agoraManager.agoraEngineRef.current?.stopLastmileProbeTest();
-          // The result object contains the detailed test results that help you
-          // manage call quality, for example, the downlink jitter.
-          console.log('Downlink jitter: ' + result.downlinkReport?.jitter);
-          agoraManager.destroyEngine();
-        },
-        onNetworkQuality: (_connection, _Uid, _txQuality, rxQuality) => {
-          // Use downlink network quality to update the network status
-          updateNetworkStatus(rxQuality);
-        },
-        onRtcStats: (_connection, rtcStats) => {
-          console.log(rtcStats.userCount + ' user(s)');
-          console.log('Packet loss rate: ' + rtcStats.rxPacketLossRate);
-        },
-        onRemoteVideoStateChanged: (
-          _connection,
-          Uid,
-          state,
-          reason,
-          elapsed,
-        ) => {
-          console.log(
-            'Remote video state changed: \n Uid =' +
-            Uid +
-            ' \n NewState =' +
-            state +
-            ' \n reason =' +
-            reason +
-            ' \n elapsed =' +
-            elapsed,
-          );
-        },
-        onRemoteVideoStats: (_connection, stats) => {
-          console.log(
-            'Remote Video Stats: ' +
-            '\n User id =' +
-            stats.uid +
-            '\n Received bitrate =' +
-            stats.receivedBitrate +
-            '\n Total frozen time =' +
-            stats.totalFrozenTime,
-          );
-        },
+        onNetworkQuality,
+        onLastmileProbeResult,
+        onLastmileQuality,
+        onConnectionStateChanged,
+        onRtcStats,
+        onRemoteVideoStateChanged,
+        onRemoteVideoStats
       });
     }
+  };
+
+  const onConnectionStateChanged = (connection: RtcConnection, state: ConnectionStateType, reason: ConnectionChangedReasonType) => {
+    console.log(
+      'Connection state changed' +
+      '\n New state: ' +
+      state +
+      '\n Reason: ' +
+      reason,
+    );
+  };
+
+  const onLastmileQuality = (Quality: QualityType) => {
+    updateNetworkStatus(Quality);
+  }
+  
+  const onLastmileProbeResult = (result: LastmileProbeResult) => {
+    agoraManager.agoraEngineRef.current?.stopLastmileProbeTest();
+    // The result object contains the detailed test results that help you
+    // manage call quality, for example, the downlink jitter.
+    console.log('Downlink jitter: ' + result.downlinkReport?.jitter);
+    agoraManager.destroyEngine();
+  }
+
+  const onNetworkQuality = (_connection: RtcConnection, _Uid: number, _txQuality: QualityType, rxQuality: QualityType) => {
+    // Use downlink network quality to update the network status
+    updateNetworkStatus(rxQuality);
+  }
+
+  const onRtcStats = (connection: RtcConnection, stats: RtcStats) => {
+    console.log(stats.userCount + ' user(s)');
+    console.log('Packet loss rate: ' + stats.rxPacketLossRate);
+  }
+
+  const onRemoteVideoStateChanged = (
+    _connection: RtcConnection,
+    Uid: number,
+    state: RemoteVideoState,
+    reason: RemoteVideoStateReason,
+    elapsed: number,
+  ) => {
+    console.log(
+      'Remote video state changed: \n Uid =' +
+      Uid +
+      ' \n NewState =' +
+      state +
+      ' \n reason =' +
+      reason +
+      ' \n elapsed =' +
+      elapsed,
+    );
+  }
+
+  const onRemoteVideoStats = (_connection: RtcConnection, stats: RemoteVideoStats) => {
+    console.log(
+      'Remote Video Stats: ' +
+      '\n User id =' +
+      stats.uid +
+      '\n Received bitrate =' +
+      stats.receivedBitrate +
+      '\n Total frozen time =' +
+      stats.totalFrozenTime,
+    );
   };
 
   const leaveChannel = async () => {
@@ -204,6 +226,11 @@ const CallQualityManager = () => {
 
   // Function to start or stop the echo test
   const startEchoTest = async () => {
+    if(config.token==="")
+    {
+      Alert.alert("Please specify a token in the config file to run echo test");
+      return;
+    }
     await setupAgoraEngine();
     const ret = await agoraManager.agoraEngineRef.current?.startEchoTest({
       enableAudio: true,

@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* myProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* myProjectTests.m */; };
-		099FB58C2B3213B9007C261B /* applause-01.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 099FB58B2B3213B9007C261B /* applause-01.mp3 */; };
+		099FB58C2B3213B9007C261B /* applause.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 099FB58B2B3213B9007C261B /* applause.mp3 */; };
 		099FB58E2B3213C0007C261B /* agora.png in Resources */ = {isa = PBXBuildFile; fileRef = 099FB58D2B3213C0007C261B /* agora.png */; };
 		099FB5902B3213CA007C261B /* effect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 099FB58F2B3213C9007C261B /* effect.mp3 */; };
+		09F376692B53B13F005165EF /* background.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 09F376682B53B13F005165EF /* background.jpeg */; };
+		09F3766A2B53B13F005165EF /* background.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 09F376682B53B13F005165EF /* background.jpeg */; };
 		0C80B921A6F3F58F76C31292 /* libPods-myProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-myProject.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -33,9 +35,10 @@
 		00E356EE1AD99517003FC87E /* myProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = myProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* myProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = myProjectTests.m; sourceTree = "<group>"; };
-		099FB58B2B3213B9007C261B /* applause-01.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "applause-01.mp3"; path = "myProject/applause-01.mp3"; sourceTree = SOURCE_ROOT; };
+		099FB58B2B3213B9007C261B /* applause.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = applause.mp3; path = myProject/applause.mp3; sourceTree = SOURCE_ROOT; };
 		099FB58D2B3213C0007C261B /* agora.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = agora.png; path = myProject/agora.png; sourceTree = SOURCE_ROOT; };
 		099FB58F2B3213C9007C261B /* effect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = effect.mp3; path = myProject/effect.mp3; sourceTree = SOURCE_ROOT; };
+		09F376682B53B13F005165EF /* background.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpeg; path = myProject/background.jpeg; sourceTree = SOURCE_ROOT; };
 		13B07F961A680F5B00A75B9A /* myProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = myProject/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = myProject/AppDelegate.mm; sourceTree = "<group>"; };
@@ -92,9 +95,10 @@
 		13B07FAE1A68108700A75B9A /* myProject */ = {
 			isa = PBXGroup;
 			children = (
+				09F376682B53B13F005165EF /* background.jpeg */,
 				099FB58F2B3213C9007C261B /* effect.mp3 */,
 				099FB58D2B3213C0007C261B /* agora.png */,
-				099FB58B2B3213B9007C261B /* applause-01.mp3 */,
+				099FB58B2B3213B9007C261B /* applause.mp3 */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -244,6 +248,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F3766A2B53B13F005165EF /* background.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +257,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				099FB58C2B3213B9007C261B /* applause-01.mp3 in Resources */,
+				09F376692B53B13F005165EF /* background.jpeg in Resources */,
+				099FB58C2B3213B9007C261B /* applause.mp3 in Resources */,
 				099FB5902B3213CA007C261B /* effect.mp3 in Resources */,
 				099FB58E2B3213C0007C261B /* agora.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AgoraUI from "../agora-manager/agoraUI";
-import Slider from "@react-native-community/slider"; // Correct import
+import AgoraUI, { styles } from "../agora-manager/agoraUI";
+import Slider from "@react-native-community/slider";
 import { View, TextInput } from "react-native";
 import SpatialAudioManager from "./spatialAudioManager";
 
@@ -12,10 +12,11 @@ const SpatialAudio = () => {
     remoteUIDs,
     setUserRole,
     setChannelName,
-    updateRemoteSpatialAudioPosition
+    updateRemoteSpatialAudioPosition,
   } = SpatialAudioManager();
 
-  const [distanceUnit, setDistanceUnit] = useState(50); // Initial value for the audio range
+  const initialDistanceUnit = 5; // Initial value for the audio range, adjusted to be within the Slider range
+  const [distanceUnit, setDistanceUnit] = useState(initialDistanceUnit);
 
   return (
     <>
@@ -29,22 +30,17 @@ const SpatialAudio = () => {
           <View>
             <TextInput
               placeholder="Type a channel name here"
-              placeholderTextColor={'white'}
+              placeholderTextColor="white"
               onChangeText={(text) => setChannelName(text)}
-              style={{
-                alignSelf: 'center',
-                borderColor: 'white',
-                borderWidth: 1,
-                height: 30
-              }}
+              style={styles.input}
             />
             <Slider
-              style={{ width: 200, marginTop: 20, alignSelf: 'center' }}
+              style={styles.sliderStyle}
               minimumValue={0}
               maximumValue={10}
               step={1}
               value={distanceUnit}
-              onValueChange={(sourceDistance: number) => updateRemoteSpatialAudioPosition(sourceDistance)}
+              onValueChange={(sourceDistance) => updateRemoteSpatialAudioPosition(sourceDistance)}
             />
           </View>
         }

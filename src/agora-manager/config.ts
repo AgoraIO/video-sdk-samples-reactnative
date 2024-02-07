@@ -13,12 +13,18 @@ const config: configType = {
     product: "",
     audioFilePath: getResourcePath('effect.mp3'),
     soundEffectId: 1,
-    soundEffectFilePath: getResourcePath('effect.mp3'),
+    soundEffectFilePath: getResourcePath('applause.mp3'),
     logFilePath: "",
     mediaLocation: "https://www.appsloveworld.com/wp-content/uploads/2018/10/640.mp4",
     encryptionBase64: "",
     encryptionKey: "",
-    imagePath: getResourcePath('agora.png')
+    imagePath: getResourcePath('background.jpeg'),
+    destChannelName : '',
+    destChannelToken : '',
+    destUid : 100,
+    secondChannelToken: "",
+    secondChannelUid: 100,
+    secondChannelName: ""
   };
   
   export type configType = {
@@ -39,7 +45,13 @@ const config: configType = {
     mediaLocation: string,
     encryptionBase64: string,
     encryptionKey: string,
-    imagePath: string
+    imagePath: string,
+    destChannelName : string,
+    destChannelToken : string,
+    destUid : 100 // User ID that the user uses in the destination channel.
+    secondChannelUid: number,
+    secondChannelName: string,
+    secondChannelToken: string
   };
   
   export default config;

@@ -98,6 +98,14 @@ const AudioAndVoiceEffectsManager = () => {
     setMixingState(state);
   };
 
+  const preloadSoundEffect = () =>
+  {
+    if(agoraEngineRef.current)
+    {
+      agoraEngineRef.current?.preloadEffect(config.soundEffectId, config.soundEffectFilePath);
+    }
+  }
+
   // Function to set up the Agora engine with configurations and event handlers
   const setupAgoraEngine = async () => {
     try {
@@ -107,8 +115,9 @@ const AudioAndVoiceEffectsManager = () => {
         AudioProfileType.AudioProfileMusicHighQualityStereo,
         AudioScenarioType.AudioScenarioGameStreaming
       );
-
-      agoraEngineRef.current?.preloadEffect(config.soundEffectId, config.soundEffectFilePath);
+      
+      // Preload effect before you join the channel.
+      preloadSoundEffect();
 
       agoraEngineRef.current?.registerEventHandler({
         onAudioEffectFinished,

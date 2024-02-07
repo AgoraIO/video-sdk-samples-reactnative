@@ -1,5 +1,5 @@
 import React from "react";
-import AgoraUI from "../agora-manager/agoraUI";
+import AgoraUI, { styles } from "../agora-manager/agoraUI";
 import { View, Button, TextInput } from "react-native";
 import VirtualBackgroundManager from "./virtualBackgroundManager";
 
@@ -28,12 +28,7 @@ const VirtualBackground = () => {
             placeholder="Type a channel name here"
             placeholderTextColor={'white'}
             onChangeText={(text) => setChannelName(text)}
-            style={{
-              alignSelf: 'center',
-              borderColor: 'white',
-              borderWidth: 1,
-              height: 30
-            }}
+            style={styles.input}
           />
           <View>
             <Button

@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet, ScrollView, Switch } from 'react-native
 import { RtcSurfaceView } from 'react-native-agora';
 import config from './config';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   videoView: { width: '100%', height: 200, flex: 1 },
   switchContainer: {
     flexDirection: 'row',
@@ -14,6 +14,43 @@ const styles = StyleSheet.create({
   switchLabel: {
     marginHorizontal: 10,
   },
+  input: {
+    alignSelf: "center",
+    borderColor: "white",
+    borderWidth: 1,
+    height: 40,
+  },
+  mediaPlayerView: {width: '100%', height: 200 },
+  sliderStyle: { width: 200, marginTop: 20, alignSelf: 'center' },
+  volumeControl: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+},
+volumeText: {
+    color: "white",
+    marginHorizontal: 10,
+},
+muteSwitchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+},
+muteLabel: {
+    marginRight: 10,
+    color: "white",
+},
+screenShareView: {
+    width: '100%',
+    height: 200,
+},
+networkQuality: {
+  color: "white",
+},
+buttonContainer: {
+  padding: 2,
+},
+
+
 });
 
 interface AgoraUIProps {
@@ -23,6 +60,7 @@ interface AgoraUIProps {
   handleJoinCall: () => void;
   setUserRole: (role: string) => void;
   additionalContent?: React.ReactNode;
+  additionalViews?: React.ReactNode
 }
 
 const AgoraUI: React.FC<AgoraUIProps> = ({
@@ -32,6 +70,7 @@ const AgoraUI: React.FC<AgoraUIProps> = ({
   handleJoinCall,
   setUserRole,
   additionalContent,
+  additionalViews
 }: AgoraUIProps) => {
   const [remoteUIs, setRemoteUIs] = useState<JSX.Element[]>([]);
   const [clientRole, setRole] = useState(false);
@@ -97,12 +136,13 @@ const AgoraUI: React.FC<AgoraUIProps> = ({
       <ScrollView style={{ padding: 5 }}>
         {joined ? (
           <View key={config.uid}>
-            <Text>Local user uid: {config.uid}</Text>
+            <Text style = {{color: "white"}}>Local user uid: {config.uid}</Text>
             <RtcSurfaceView canvas={{ uid: config.uid }} style={styles.videoView} />
           </View>
         ) : (
           <Text style = {{color: '#FFFFFF'}}>Join a channel</Text>
         )}
+        {additionalViews}
         {remoteUIs}
       </ScrollView>
     </View>
